@@ -40,8 +40,7 @@ export const FeedView: React.FC<FeedViewProps> = ({
   onSharePost,
   onAddNewPost,
 }) => {
-  const [activeTab, setActiveTab] = useState<'forYou' | 'following' | 'explore'>('forYou');
-  const [selectedCategory, setSelectedCategory] = useState<string>('All');
+  const [activeTab, setActiveTab] = useState<'forYou' | 'following'>('forYou');
   const [playingAudioId, setPlayingAudioId] = useState<string | null>(null);
 
   // Inline Composer State
@@ -51,14 +50,11 @@ export const FeedView: React.FC<FeedViewProps> = ({
   const [composerAudio, setComposerAudio] = useState(false);
   const [composerImage, setComposerImage] = useState<string | null>(null);
 
-  const filterCategories = ['All', 'Vibes', 'Anime', 'Gamer', 'Music', 'Thoughts', 'Meme'];
-
-  // Only show category chips inside Explore tab
-  const showCategoryChips = activeTab === 'explore';
-
   const filteredPosts = posts.filter((p) => {
-    if (selectedCategory === 'All' || !showCategoryChips) return true;
-    return p.category.toLowerCase() === selectedCategory.toLowerCase();
+    if (activeTab === 'following') {
+      return !p.isAd;
+    }
+    return true;
   });
 
   const toggleAudio = (postId: string) => {
@@ -110,45 +106,31 @@ export const FeedView: React.FC<FeedViewProps> = ({
   return (
     <div className="w-full max-w-2xl mx-auto pb-28 pt-0">
       {/* Stream Tabs — sticky header */}
-      <div className="sticky top-0 z-20 bg-[#0D0E12] border-b border-[#1E2028]">
-        <div className="flex items-center px-4 pt-3 pb-2 gap-1">
-          {[
-            { id: 'forYou' as const, label: 'For You' },
-            { id: 'following' as const, label: 'Following' },
-            { id: 'explore' as const, label: 'Explore' },
-          ].map((tab) => (
-            <button
-              key={tab.id}
-              onClick={() => { setActiveTab(tab.id); setSelectedCategory('All'); }}
-              className={`px-4 py-1.5 rounded-full text-sm font-bold transition-all ${
-                activeTab === tab.id
-                  ? 'bg-white text-black'
-                  : 'text-zinc-500 hover:text-zinc-200 hover:bg-white/5'
-              }`}
-            >
-              {tab.label}
-            </button>
-          ))}
+      <div className="sticky top-0 z-20 bg-[#0D0E12]/95 backdrop-blur-md border-b border-[#1E2028]">
+        <div className="flex border-b border-[#1E2028]">
+          <button
+            onClick={() => setActiveTab('forYou')}
+            className="flex-1 relative py-3.5 text-center text-[15px] font-bold transition-colors hover:bg-white/[0.03]"
+          >
+            <span className={activeTab === 'forYou' ? 'text-white' : 'text-zinc-500 hover:text-zinc-300'}>
+              For you
+            </span>
+            {activeTab === 'forYou' && (
+              <span className="absolute bottom-0 left-12 right-12 h-1 bg-[#D6F174] rounded-full" />
+            )}
+          </button>
+          <button
+            onClick={() => setActiveTab('following')}
+            className="flex-1 relative py-3.5 text-center text-[15px] font-bold transition-colors hover:bg-white/[0.03]"
+          >
+            <span className={activeTab === 'following' ? 'text-white' : 'text-zinc-500 hover:text-zinc-300'}>
+              Following
+            </span>
+            {activeTab === 'following' && (
+              <span className="absolute bottom-0 left-12 right-12 h-1 bg-[#D6F174] rounded-full" />
+            )}
+          </button>
         </div>
-
-        {/* Category chips — only visible inside Explore */}
-        {showCategoryChips && (
-          <div className="flex items-center gap-2 overflow-x-auto no-scrollbar px-4 pb-2.5 pt-1">
-            {filterCategories.map((cat) => (
-              <button
-                key={cat}
-                onClick={() => setSelectedCategory(cat)}
-                className={`px-3 py-1 rounded-full text-xs font-semibold whitespace-nowrap transition-all ${
-                  selectedCategory === cat
-                    ? 'bg-[#D6F174] text-black font-bold'
-                    : 'bg-[#14151C] text-zinc-400 hover:text-white border border-white/5'
-                }`}
-              >
-                {cat}
-              </button>
-            ))}
-          </div>
-        )}
       </div>
 
       <div className="px-4 pt-4">
