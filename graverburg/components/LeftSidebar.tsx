@@ -1,15 +1,18 @@
 import React from 'react';
 import {
   HomeIcon,
-  BellIcon,
-  MessageCircleIcon,
-  UserIcon,
   SearchIcon,
-  BookmarkIcon,
+  BellIcon,
+  UserPlusIcon,
+  MessageCircleIcon,
+  PhoneIcon,
   SparklesIcon,
-  PlusIcon,
+  BookmarkIcon,
+  UserIcon,
+  MoreCircleIcon,
+  MoreHorizontalIcon,
+  LockIcon,
 } from './Icons';
-
 import { useToast } from './ToastContext';
 
 interface LeftSidebarProps {
@@ -23,7 +26,7 @@ export const LeftSidebar: React.FC<LeftSidebarProps> = ({
   activeTab,
   setActiveTab,
   openCreateModal,
-  unreadChatCount = 2,
+  unreadChatCount = 1,
 }) => {
   const { toast } = useToast();
 
@@ -31,76 +34,92 @@ export const LeftSidebar: React.FC<LeftSidebarProps> = ({
     {
       id: 'feed' as const,
       label: 'Home',
-      icon: <HomeIcon className="w-5 h-5" />,
+      icon: <HomeIcon className="w-7 h-7 stroke-[2]" />,
       badge: null,
     },
     {
       id: 'showcase' as const,
-      label: 'UI Mockups',
-      icon: <SparklesIcon className="w-5 h-5" />,
-      badge: '3 Screens',
-      badgeColor: 'bg-[#D6F174] text-[#0D0E12] font-black',
-    },
-    {
-      id: null,
-      label: 'Search',
-      icon: <SearchIcon className="w-5 h-5" />,
+      label: 'Explore',
+      icon: <SearchIcon className="w-7 h-7 stroke-[2]" />,
       badge: null,
-      action: () => toast('Search active: explore trending tags in the right rail ⚡', 'info'),
+      action: () => setActiveTab('showcase'),
     },
     {
       id: null,
       label: 'Notifications',
-      icon: <BellIcon className="w-5 h-5" />,
-      badge: '3',
-      badgeColor: 'bg-[#FA5D54] text-white',
-      action: () => toast('Notifications: Aria & Ren liked your post · 1 new message 🔔', 'celebrate'),
-    },
-    {
-      id: 'chat' as const,
-      label: 'Messages',
-      icon: <MessageCircleIcon className="w-5 h-5" />,
-      badge: unreadChatCount > 0 ? `${unreadChatCount}` : null,
-      badgeColor: 'bg-[#FA5D54] text-white',
+      icon: <BellIcon className="w-7 h-7 stroke-[2]" />,
+      badge: '1',
+      badgeColor: 'bg-[#1D9BF0] text-white',
+      action: () => toast('Notifications: 1 new message & mention 🔔', 'celebrate'),
     },
     {
       id: null,
-      label: 'Bookmarks',
-      icon: <BookmarkIcon className="w-5 h-5" />,
+      label: 'Follow',
+      icon: <UserPlusIcon className="w-7 h-7 stroke-[2]" />,
       badge: null,
-      action: () => toast('Bookmarks: 4 saved vibes stored in your personal vault 🔖', 'info'),
+      action: () => toast('Suggested people to follow synced in right rail ✨', 'info'),
+    },
+    {
+      id: 'chat' as const,
+      label: 'Chat',
+      icon: <MessageCircleIcon className="w-7 h-7 stroke-[2]" />,
+      badge: unreadChatCount > 0 ? `${unreadChatCount}` : null,
+      badgeColor: 'bg-[#1D9BF0] text-white',
+    },
+    {
+      id: null,
+      label: 'Calls',
+      icon: <PhoneIcon className="w-7 h-7 stroke-[2]" />,
+      badge: null,
+      action: () => toast('Audio & Video rooms available in Space Lounge 📞', 'info'),
+    },
+    {
+      id: null,
+      label: 'Grok',
+      icon: <SparklesIcon className="w-7 h-7 stroke-[2]" />,
+      badge: null,
+      action: () => toast('Graver AI Assistant standing by ⚡', 'info'),
+    },
+    {
+      id: null,
+      label: 'History',
+      icon: <BookmarkIcon className="w-7 h-7 stroke-[2]" />,
+      badge: null,
+      action: () => toast('Viewing saved vibes & bookmarks 🔖', 'info'),
     },
     {
       id: 'profile' as const,
-      label: 'My Space',
-      icon: <UserIcon className="w-5 h-5" />,
+      label: 'Profile',
+      icon: <UserIcon className="w-7 h-7 stroke-[2]" />,
       badge: null,
+    },
+    {
+      id: null,
+      label: 'More',
+      icon: <MoreCircleIcon className="w-7 h-7 stroke-[2]" />,
+      badge: null,
+      action: () => toast('Theme settings, display mode & privacy', 'info'),
     },
   ];
 
   return (
-    <aside className="hidden lg:flex flex-col justify-between w-60 xl:w-64 h-screen sticky top-0 p-4 border-r border-[#1E2028] bg-[#0D0E12] flex-shrink-0 z-30 select-none">
-      <div>
-        {/* Brand Logo */}
+    <aside className="hidden lg:flex flex-col justify-between w-64 xl:w-[275px] h-screen sticky top-0 px-3 xl:px-4 py-2 border-r border-[#1E2028] bg-[#0D0E12] flex-shrink-0 z-30 select-none">
+      <div className="flex flex-col items-start w-full">
+        {/* Brand Icon Header */}
         <div
           onClick={() => setActiveTab('feed')}
-          className="flex items-center gap-3 px-3 py-3 rounded-2xl hover:bg-[#14151C] transition-all cursor-pointer group mb-6"
+          className="w-12 h-12 rounded-full hover:bg-white/10 flex items-center justify-center cursor-pointer transition-colors mb-1 ml-1"
+          title="GraverBurg"
         >
-          <div className="w-9 h-9 rounded-xl overflow-hidden bg-[#1A1B22] border border-white/10 group-hover:scale-105 transition-transform flex-shrink-0">
-            <img src="/logo.png" alt="GraverBurg Logo" className="w-full h-full object-cover" />
-          </div>
-          <div>
-            <span className="font-display font-black text-lg text-white tracking-tight group-hover:text-[#D6F174] transition-colors">
-              GraverBurg
-            </span>
-            <p className="text-[10px] font-medium text-zinc-500 leading-none mt-0.5">
-              Your profile. Your world.
-            </p>
-          </div>
+          <img
+            src="/logo.png"
+            alt="GraverBurg"
+            className="w-9 h-9 object-cover rounded-xl"
+          />
         </div>
 
-        {/* Navigation */}
-        <nav className="space-y-0.5 mb-5">
+        {/* Navigation list */}
+        <nav className="w-full space-y-0.5">
           {navItems.map((item, idx) => {
             const isActive = item.id !== null && activeTab === item.id;
             const handleClick = item.action ?? (() => item.id && setActiveTab(item.id));
@@ -108,69 +127,57 @@ export const LeftSidebar: React.FC<LeftSidebarProps> = ({
               <button
                 key={idx}
                 onClick={handleClick}
-                className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl font-semibold text-sm transition-all duration-150 ${
-                  isActive
-                    ? 'bg-[#181920] text-white'
-                    : 'text-zinc-400 hover:text-white hover:bg-[#13141A]'
-                }`}
+                className="group flex items-center gap-5 px-4 py-3 rounded-full hover:bg-white/10 transition-colors w-fit text-left text-xl text-[#E7E9EA] hover:text-white"
               >
-                <div className="flex items-center gap-3">
-                  <span className={isActive ? 'text-[#D6F174]' : 'text-zinc-400 group-hover:text-white'}>
+                <div className="relative flex items-center justify-center flex-shrink-0">
+                  <span className={isActive ? 'text-[#D6F174]' : 'text-[#E7E9EA] group-hover:text-white'}>
                     {item.icon}
                   </span>
-                  <span className={isActive ? 'font-bold text-white' : ''}>{item.label}</span>
+                  {item.badge && (
+                    <span
+                      className={`absolute -top-1.5 -right-2 min-w-[18px] h-[18px] px-1 text-[11px] font-bold rounded-full flex items-center justify-center ${
+                        item.badgeColor || 'bg-[#1D9BF0] text-white'
+                      }`}
+                    >
+                      {item.badge}
+                    </span>
+                  )}
                 </div>
-                {item.badge && (
-                  <span
-                    className={`min-w-[20px] h-5 px-1.5 text-[10px] font-extrabold rounded-full flex items-center justify-center ${
-                      item.badgeColor || 'bg-zinc-700 text-zinc-200'
-                    }`}
-                  >
-                    {item.badge}
-                  </span>
-                )}
+                <span className={`text-[20px] ${isActive ? 'font-black text-white' : 'font-normal group-hover:text-white'}`}>
+                  {item.label}
+                </span>
               </button>
             );
           })}
         </nav>
 
-        {/* New Post CTA — compact, icon only becomes text on hover */}
+        {/* Large Primary CTA Pill Button */}
         <button
           onClick={openCreateModal}
-          className="w-full py-2.5 px-4 rounded-xl bg-[#D6F174] hover:bg-[#c9e663] active:scale-[0.98] text-[#0D0E12] font-display font-black text-sm tracking-wide transition-all flex items-center justify-center gap-2"
+          className="w-[90%] max-w-[230px] my-3.5 py-3.5 px-8 rounded-full bg-[#D6F174] hover:bg-[#c6e45f] active:scale-[0.98] text-[#0D0E12] font-black text-[17px] tracking-wide shadow-md transition-all flex items-center justify-center"
         >
-          <PlusIcon className="w-4 h-4 stroke-[2.5]" />
-          <span>New Post</span>
+          Post
         </button>
-
-        {/* Space Expiry — one location, clear label */}
-        <div className="mt-4 px-3 py-2.5 rounded-xl bg-[#1A1B22] border border-[#F7C948]/20 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-[#F7C948] animate-pulse flex-shrink-0" />
-            <span className="text-[11px] font-semibold text-zinc-300">Space resets in</span>
-          </div>
-          <span className="text-[11px] font-bold text-[#F7C948] tabular-nums">7h 15m</span>
-        </div>
       </div>
 
-      {/* User Footer */}
+      {/* User Profile Pill at Bottom */}
       <div
         onClick={() => setActiveTab('profile')}
-        className="p-2.5 rounded-xl bg-[#14151C] border border-white/5 hover:border-[#D6F174]/25 cursor-pointer transition-all flex items-center justify-between group"
+        className="w-full max-w-[260px] p-2.5 rounded-full hover:bg-white/10 cursor-pointer flex items-center justify-between transition-colors mb-2 group"
       >
-        <div className="flex items-center gap-2.5 min-w-0">
-          <div className="relative w-9 h-9 rounded-full overflow-hidden border border-white/10 bg-zinc-800 flex-shrink-0">
+        <div className="flex items-center gap-3 min-w-0">
+          <div className="w-10 h-10 rounded-full overflow-hidden bg-zinc-800 flex-shrink-0 border border-white/10">
             <img src="/logo.png" alt="Avatar" className="w-full h-full object-cover" />
-            <span className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-[#D6F174] border-2 border-[#14151C] rounded-full" />
           </div>
-          <div className="min-w-0">
-            <span className="text-xs font-bold text-white group-hover:text-[#D6F174] truncate block transition-colors">
-              Dhuruv
-            </span>
-            <p className="text-[10px] text-zinc-500 truncate">@dhuruv_vibe</p>
+          <div className="min-w-0 leading-tight">
+            <div className="flex items-center gap-1">
+              <span className="text-[15px] font-bold text-white truncate">Falooda</span>
+              <LockIcon className="w-3.5 h-3.5 text-zinc-400 flex-shrink-0" />
+            </div>
+            <p className="text-[13px] text-zinc-500 truncate">@falooda_fr</p>
           </div>
         </div>
-        <SparklesIcon className="w-3.5 h-3.5 text-zinc-600 group-hover:text-[#F7C948] transition-colors flex-shrink-0" />
+        <MoreHorizontalIcon className="w-5 h-5 text-zinc-400 group-hover:text-white flex-shrink-0 mr-1" />
       </div>
     </aside>
   );

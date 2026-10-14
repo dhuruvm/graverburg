@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { SearchIcon, FlameIcon, SparklesIcon, MusicIcon, PlayIcon, PauseIcon } from './Icons';
+import { SearchIcon, XIcon, MoreHorizontalIcon } from './Icons';
+import { useToast } from './ToastContext';
 
 interface RightSidebarProps {
   onSelectTopic?: (tag: string) => void;
@@ -9,179 +10,214 @@ interface RightSidebarProps {
 export const RightSidebar: React.FC<RightSidebarProps> = ({
   onSelectTopic,
 }) => {
-  const [isPlayingRadio, setIsPlayingRadio] = useState(false);
-  const [followedUsers, setFollowedUsers] = useState<Record<string, boolean>>({});
+  const { toast } = useToast();
+  const [isNewsDismissed, setIsNewsDismissed] = useState(false);
+  const [searchValue, setSearchValue] = useState('');
+
+  const newsItems = [
+    {
+      id: 'news-1',
+      title: 'Modi Tells Global Leaders India Grows With the World Through Shared Empowerment',
+      meta: '4 hours ago · News · 2,665 posts',
+      image: 'https://images.unsplash.com/photo-1544717305-2782549b5136?w=80&auto=format&fit=crop&q=80',
+    },
+    {
+      id: 'news-2',
+      title: 'Ramayana Trailer 2 Launch Set for Bengaluru with Yash and Cast',
+      meta: '14 hours ago · Entertainment · 5,669 posts',
+      image: 'https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=80&auto=format&fit=crop&q=80',
+    },
+    {
+      id: 'news-3',
+      title: 'Vijay Deverakonda Joins Leaders for Ranabaali History Chat',
+      meta: 'Trending now · Entertainment · 1,706 posts',
+      image: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=80&auto=format&fit=crop&q=80',
+    },
+  ];
 
   const trendingTopics = [
-    { tag: '#CyberAesthetic', category: 'Aesthetic · Trending', posts: '28.4k posts', rank: 1, hot: true },
-    { tag: '#LofiDrop26', category: 'Music · Room', posts: '14.2k posts', rank: 2, hot: false },
-    { tag: '#PistachioLime', category: 'Themes', posts: '9.8k posts', rank: 3, hot: false },
-    { tag: '#AnimeNightshift', category: 'Anime · Feed', posts: '31.1k posts', rank: 4, hot: false },
-    { tag: '#MySpaceRevival', category: 'Culture · Gen Z', posts: '18.7k posts', rank: 5, hot: false },
+    {
+      category: 'Trending in India · Promoted',
+      tag: 'UNIQLO x Bumrah',
+      description: 'A UNIQLO fleece for everything Jasprit loves doing',
+      posts: null,
+      promoted: true,
+    },
+    {
+      category: 'Entertainment · Trending',
+      tag: '#CyberAesthetic',
+      description: null,
+      posts: '28.4k posts',
+      promoted: false,
+    },
+    {
+      category: 'Technology · Trending',
+      tag: 'Gemini 4 Argon',
+      description: null,
+      posts: '94.2k posts',
+      promoted: false,
+    },
+    {
+      category: 'Sports · Trending',
+      tag: '#IndVsAus',
+      description: null,
+      posts: '45.1k posts',
+      promoted: false,
+    },
+    {
+      category: 'Trending now',
+      tag: '#GraverBurgSpace',
+      description: null,
+      posts: '12.8k posts',
+      promoted: false,
+    },
   ];
 
-  const suggestedGravers = [
-    {
-      id: 'sg-1',
-      name: 'Aria Vibe',
-      handle: '@aria_indie',
-      avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&auto=format&fit=crop&q=80',
-      tag: 'Sound Designer 🎧',
-    },
-    {
-      id: 'sg-2',
-      name: 'Ren',
-      handle: '@ren_val',
-      avatar: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=150&auto=format&fit=crop&q=80',
-      tag: 'Pro Esports 🎮',
-    },
-    {
-      id: 'sg-3',
-      name: 'Kira',
-      handle: '@kira_cyber',
-      avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80',
-      tag: 'UI/UX Visuals 🎨',
-    },
-  ];
-
-  const toggleFollow = (id: string) => {
-    setFollowedUsers((prev) => ({ ...prev, [id]: !prev[id] }));
+  const handleSearchSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!searchValue.trim()) return;
+    onSelectTopic?.(searchValue.trim());
+    toast(`Searching for "${searchValue.trim()}"...`, 'info');
   };
 
   return (
-    <aside className="hidden xl:flex flex-col w-72 h-screen sticky top-0 border-l border-[#1E2028] bg-[#0D0E12] flex-shrink-0 z-30 select-none overflow-hidden">
-      {/* Scrollable content area */}
-      <div className="flex-1 overflow-y-auto no-scrollbar p-4 space-y-4">
-        {/* Search Input */}
-        <div className="relative">
-          <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-zinc-500">
-            <SearchIcon className="w-4 h-4" />
+    <aside className="hidden xl:flex flex-col w-80 xl:w-[350px] min-h-screen sticky top-0 border-l border-[#1E2028] bg-[#0D0E12] flex-shrink-0 z-30 select-none overflow-y-auto no-scrollbar px-4 py-2 space-y-4">
+      {/* 1. Search Bar */}
+      <div className="sticky top-0 bg-[#0D0E12]/95 backdrop-blur-md pt-1 pb-2 z-20">
+        <form onSubmit={handleSearchSubmit}>
+          <div className="flex items-center rounded-full bg-[#202327] hover:bg-[#272c30] focus-within:bg-[#000000] focus-within:ring-1 focus-within:ring-[#D6F174] px-4 py-2.5 transition-all">
+            <SearchIcon className="w-4 h-4 text-zinc-500 mr-3 flex-shrink-0" />
+            <input
+              type="text"
+              value={searchValue}
+              onChange={(e) => setSearchValue(e.target.value)}
+              placeholder="Search"
+              className="bg-transparent text-[15px] text-white placeholder-zinc-500 focus:outline-none w-full font-normal"
+            />
           </div>
-          <input
-            type="text"
-            placeholder="Search GraverBurg..."
-            className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-[#14151C] border border-white/5 focus:border-[#D6F174]/40 focus:outline-none text-sm text-white placeholder-zinc-500 transition-all font-medium"
-          />
-        </div>
+        </form>
+      </div>
 
-        {/* Trending Topics */}
-        <div className="p-4 rounded-2xl bg-[#14151C] border border-white/5">
-          <div className="flex items-center justify-between mb-3">
-            <h3 className="font-display font-extrabold text-sm text-white flex items-center gap-2">
-              <FlameIcon className="w-4 h-4 text-[#FA5D54]" />
-              Trending
-            </h3>
-            <span className="text-[10px] text-zinc-500 font-semibold uppercase tracking-wider">Live</span>
+      {/* 2. Subscribe to Premium Card */}
+      <div className="rounded-2xl bg-[#16181C] border border-[#2F3336]/60 p-4">
+        <h2 className="text-[20px] font-extrabold text-white tracking-tight leading-tight">
+          Subscribe to Premium
+        </h2>
+        <p className="text-[14px] text-zinc-300 leading-snug mt-1.5 mb-3.5">
+          Get rid of ads, see your analytics, boost your replies and unlock 20+ features.
+        </p>
+        <button
+          onClick={() => toast('Subscribed to GraverBurg Premium! 🎉', 'celebrate')}
+          className="px-5 py-2 rounded-full bg-[#D6F174] hover:bg-[#c6e45f] text-black font-bold text-[15px] active:scale-95 transition-all shadow-sm"
+        >
+          Subscribe
+        </button>
+      </div>
+
+      {/* 3. Today's News Card */}
+      {!isNewsDismissed && (
+        <div className="rounded-2xl bg-[#16181C] border border-[#2F3336]/60 overflow-hidden">
+          <div className="flex items-center justify-between px-4 pt-3 pb-1">
+            <h2 className="text-[20px] font-extrabold text-white tracking-tight">
+              Today’s News
+            </h2>
+            <button
+              onClick={() => setIsNewsDismissed(true)}
+              title="Dismiss news"
+              className="w-7 h-7 rounded-full hover:bg-white/10 flex items-center justify-center text-zinc-400 hover:text-white transition-colors"
+            >
+              <XIcon className="w-4 h-4" />
+            </button>
           </div>
 
-          <div className="space-y-3.5">
-            {trendingTopics.map((topic) => (
+          <div className="divide-y divide-[#2F3336]/40">
+            {newsItems.map((item) => (
               <div
-                key={topic.rank}
-                onClick={() => onSelectTopic?.(topic.tag)}
-                className="group cursor-pointer flex items-start justify-between"
+                key={item.id}
+                onClick={() => toast(`Opening: ${item.title.substring(0, 40)}...`, 'info')}
+                className="px-4 py-3 hover:bg-white/[0.03] cursor-pointer transition-colors group"
               >
-                <div className="min-w-0">
-                  <p className="text-[11px] text-zinc-500 font-medium mb-0.5">{topic.category}</p>
-                  <p className="text-sm font-bold text-zinc-100 group-hover:text-[#D6F174] transition-colors truncate">
-                    {topic.tag}
-                  </p>
-                  <p className="text-[11px] text-zinc-500 mt-0.5">{topic.posts}</p>
+                <h3 className="text-[15px] font-bold text-white group-hover:underline leading-snug mb-1.5">
+                  {item.title}
+                </h3>
+                <div className="flex items-center gap-2 text-[13px] text-zinc-500">
+                  <div className="w-4 h-4 rounded-full overflow-hidden bg-zinc-800 flex-shrink-0 border border-white/10">
+                    <img src={item.image} alt="" className="w-full h-full object-cover" />
+                  </div>
+                  <span className="truncate">{item.meta}</span>
                 </div>
-                {topic.hot && (
-                  <span className="ml-2 flex-shrink-0 px-1.5 py-0.5 rounded-full text-[9px] font-black uppercase tracking-wider bg-[#FA5D54]/15 text-[#FA5D54] border border-[#FA5D54]/20 mt-1">
-                    Hot
-                  </span>
-                )}
               </div>
             ))}
           </div>
         </div>
+      )}
 
-        {/* Who to Follow */}
-        <div className="p-4 rounded-2xl bg-[#14151C] border border-white/5">
-          <h3 className="font-display font-extrabold text-sm text-white mb-3 flex items-center gap-2">
-            <SparklesIcon className="w-4 h-4 text-[#F7C948]" />
-            Suggested Gravers
-          </h3>
+      {/* 4. What's happening Card */}
+      <div className="rounded-2xl bg-[#16181C] border border-[#2F3336]/60 overflow-hidden">
+        <h2 className="text-[20px] font-extrabold text-white tracking-tight px-4 pt-3 pb-2">
+          What’s happening
+        </h2>
 
-          <div className="space-y-3">
-            {suggestedGravers.map((u) => {
-              const isFollowed = followedUsers[u.id];
-              return (
-                <div key={u.id} className="flex items-center justify-between gap-3">
-                  <div className="flex items-center gap-2.5 min-w-0">
-                    <div className="w-9 h-9 rounded-full overflow-hidden border border-white/10 flex-shrink-0 bg-zinc-800">
-                      <img src={u.avatar} alt={u.name} className="w-full h-full object-cover" />
-                    </div>
-                    <div className="min-w-0">
-                      <p className="text-sm font-bold text-zinc-100 truncate">{u.name}</p>
-                      <p className="text-[11px] text-zinc-500 truncate">{u.tag}</p>
-                    </div>
-                  </div>
+        <div className="divide-y divide-[#2F3336]/40">
+          {trendingTopics.map((topic, i) => (
+            <div
+              key={i}
+              onClick={() => {
+                onSelectTopic?.(topic.tag);
+                toast(`Filtering feed for ${topic.tag}`, 'info');
+              }}
+              className="px-4 py-3 hover:bg-white/[0.03] cursor-pointer transition-colors group"
+            >
+              <div className="flex items-center justify-between text-[13px] text-zinc-500 mb-0.5">
+                <span>{topic.category}</span>
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    toast(`Topic options for ${topic.tag}`, 'info');
+                  }}
+                  className="w-6 h-6 rounded-full hover:bg-white/10 flex items-center justify-center text-zinc-500 hover:text-white transition-colors"
+                >
+                  <MoreHorizontalIcon className="w-4 h-4" />
+                </button>
+              </div>
 
-                  <button
-                    onClick={() => toggleFollow(u.id)}
-                    className={`px-3 py-1.5 rounded-full text-xs font-bold transition-all flex-shrink-0 min-h-[32px] min-w-[68px] ${
-                      isFollowed
-                        ? 'bg-zinc-800 text-zinc-300 hover:bg-zinc-700 border border-zinc-700'
-                        : 'bg-white text-black hover:bg-[#D6F174]'
-                    }`}
-                  >
-                    {isFollowed ? 'Following' : 'Follow'}
-                  </button>
-                </div>
-              );
-            })}
-          </div>
+              <p className="text-[15px] font-bold text-white group-hover:underline leading-snug">
+                {topic.tag}
+              </p>
+
+              {topic.description && (
+                <p className="text-[13px] text-zinc-400 mt-0.5 leading-snug">
+                  {topic.description}
+                </p>
+              )}
+
+              {topic.posts && (
+                <p className="text-[13px] text-zinc-500 mt-0.5">{topic.posts}</p>
+              )}
+            </div>
+          ))}
         </div>
 
-        {/* Footer */}
-        <div className="px-1 text-[10px] text-zinc-600 leading-relaxed">
-          <p>© 2026 GraverBurg · <span className="hover:text-zinc-400 cursor-pointer">Privacy</span> · <span className="hover:text-zinc-400 cursor-pointer">Terms</span> · <span className="hover:text-zinc-400 cursor-pointer">Guidelines</span></p>
+        <div
+          onClick={() => toast('Loading more trending stories and topics...', 'info')}
+          className="p-4 hover:bg-white/[0.03] cursor-pointer text-[#D6F174] text-[15px] font-normal transition-colors"
+        >
+          Show more
         </div>
       </div>
 
-      {/* Graver Lounge Radio — docked mini-player at the bottom */}
-      <div className="flex-shrink-0 border-t border-[#1E2028] bg-[#0D0E12] px-4 py-3">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl overflow-hidden bg-zinc-800 flex-shrink-0 border border-white/10 relative">
-            <img
-              src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=150&auto=format&fit=crop&q=80"
-              alt="Radio Cover"
-              className="w-full h-full object-cover"
-            />
-            <button
-              onClick={() => setIsPlayingRadio(!isPlayingRadio)}
-              className="absolute inset-0 bg-black/50 flex items-center justify-center"
-              aria-label={isPlayingRadio ? 'Pause radio' : 'Play radio'}
-            >
-              {isPlayingRadio ? (
-                <PauseIcon className="w-4 h-4 text-[#D6F174]" />
-              ) : (
-                <PlayIcon className="w-4 h-4 text-white" />
-              )}
-            </button>
-          </div>
-
-          <div className="flex-1 min-w-0">
-            <div className="flex items-center gap-1.5 mb-0.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#FA5D54] animate-ping flex-shrink-0" />
-              <span className="text-[10px] font-bold uppercase tracking-wider text-[#FA5D54]">Live Radio</span>
-            </div>
-            <p className="text-xs font-bold text-zinc-200 truncate">Glue Song (Lofi Flip)</p>
-            <p className="text-[10px] text-zinc-500 truncate">beabadoobee · 1.4k listening</p>
-          </div>
-
-          {/* Equalizer bars */}
-          <div className="flex items-end gap-0.5 h-5 flex-shrink-0">
-            <span className={`w-1 bg-[#D6F174] rounded-full ${isPlayingRadio ? 'soundwave-bar-1' : 'h-1'}`} />
-            <span className={`w-1 bg-[#D6F174] rounded-full ${isPlayingRadio ? 'soundwave-bar-2' : 'h-2'}`} />
-            <span className={`w-1 bg-[#D6F174] rounded-full ${isPlayingRadio ? 'soundwave-bar-3' : 'h-1.5'}`} />
-            <span className={`w-1 bg-[#D6F174] rounded-full ${isPlayingRadio ? 'soundwave-bar-4' : 'h-3'}`} />
-            <span className={`w-1 bg-[#D6F174] rounded-full ${isPlayingRadio ? 'soundwave-bar-5' : 'h-1'}`} />
-          </div>
+      {/* 5. Legal / Footer links */}
+      <div className="px-4 text-[13px] text-zinc-500 leading-relaxed pb-6">
+        <div className="flex flex-wrap gap-x-2 gap-y-1 mb-1">
+          <span className="hover:underline cursor-pointer">Terms of Service</span>
+          <span className="hover:underline cursor-pointer">Privacy Policy</span>
+          <span className="hover:underline cursor-pointer">Cookie Policy</span>
+          <span className="hover:underline cursor-pointer">Accessibility</span>
+          <span className="hover:underline cursor-pointer">Ads info</span>
+          <span className="hover:underline cursor-pointer">More ···</span>
         </div>
+        <p>© 2026 GraverBurg Corp.</p>
       </div>
     </aside>
   );
