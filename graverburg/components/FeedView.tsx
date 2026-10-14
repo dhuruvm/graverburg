@@ -134,21 +134,31 @@ export const FeedView: React.FC<FeedViewProps> = ({
       </div>
 
       <div className="px-4 pt-4">
-        {/* 24h Stories — GraverBurg Cyber-Squircle Stream */}
-        <div className="mb-6 flex items-center gap-3.5 overflow-x-auto no-scrollbar py-2 px-1">
-          {/* Add Story / Your Vibe */}
+        {/* 24h Stories — GraverBurg Vibe Cards */}
+        <div className="mb-6 flex items-center gap-3 overflow-x-auto no-scrollbar py-1 px-1">
+          {/* Add Story / Your Vibe Card */}
           <div
             onClick={onOpenCreateModal}
-            className="flex flex-col items-center gap-2 flex-shrink-0 cursor-pointer group"
+            className="w-[82px] h-[112px] sm:w-[90px] sm:h-[122px] rounded-[22px] relative cursor-pointer group flex-shrink-0 vibe-card-lift bg-[#16171E] border-2 border-dashed border-[#D6F174]/40 hover:border-[#D6F174] p-2 flex flex-col justify-between overflow-hidden select-none"
           >
-            <div className="relative w-[62px] h-[62px] rounded-[22px] border-2 border-dashed border-[#D6F174]/40 bg-[#16171E] group-hover:border-[#D6F174] group-hover:bg-[#D6F174]/10 transition-all duration-300 flex items-center justify-center group-hover:scale-105 group-hover:shadow-[0_0_20px_rgba(214,241,116,0.35)]">
-              <div className="w-7 h-7 rounded-xl bg-[#D6F174] text-black flex items-center justify-center shadow-md group-hover:rotate-90 transition-transform duration-300">
-                <PlusIcon className="w-4 h-4 stroke-[3]" />
-              </div>
+            {/* Dark background avatar snippet */}
+            <div className="absolute inset-0 opacity-20 group-hover:opacity-30 transition-opacity">
+              <img src="/logo.png" alt="My avatar" className="w-full h-full object-cover" />
             </div>
-            <span className="text-[11px] font-bold text-zinc-400 group-hover:text-[#D6F174] transition-colors tracking-tight">
-              Your Vibe
-            </span>
+            <div className="absolute inset-0 bg-gradient-to-t from-[#16171E] via-[#16171E]/60 to-transparent pointer-events-none" />
+
+            {/* Top plus badge */}
+            <div className="relative z-10 w-7 h-7 rounded-xl bg-[#D6F174] text-black font-extrabold flex items-center justify-center shadow-md group-hover:scale-110 group-hover:rotate-90 transition-all duration-300">
+              <PlusIcon className="w-4 h-4 stroke-[2.5]" />
+            </div>
+
+            {/* Bottom label */}
+            <div className="relative z-10 leading-tight">
+              <p className="text-[12px] font-extrabold text-white group-hover:text-[#D6F174] transition-colors">
+                Add Vibe
+              </p>
+              <p className="text-[10px] text-zinc-400 font-medium">Post story</p>
+            </div>
           </div>
 
           {/* Story items */}
@@ -156,48 +166,50 @@ export const FeedView: React.FC<FeedViewProps> = ({
             <div
               key={story.id}
               onClick={() => onOpenStory(idx)}
-              className="flex flex-col items-center gap-2 flex-shrink-0 cursor-pointer group"
+              className={`w-[82px] h-[112px] sm:w-[90px] sm:h-[122px] rounded-[22px] relative cursor-pointer group flex-shrink-0 vibe-card-lift overflow-hidden p-2 flex flex-col justify-between select-none ${
+                story.hasSeen
+                  ? 'border border-white/10 opacity-70 hover:opacity-100 hover:border-white/30'
+                  : 'border-2 border-[#D6F174]'
+              }`}
             >
-              {story.hasSeen ? (
-                /* Seen Story — Subtle Charcoal Squircle */
-                <div className="relative w-[62px] h-[62px] rounded-[22px] p-[2px] border-2 border-zinc-700/60 bg-[#16171E] flex items-center justify-center transition-all duration-300 opacity-70 group-hover:opacity-100 group-hover:scale-105 group-hover:border-zinc-500">
-                  <div className="w-full h-full rounded-[18px] overflow-hidden bg-[#0D0E12]">
-                    <img
-                      src={story.user.avatar}
-                      alt={story.user.name}
-                      className="w-full h-full object-cover grayscale-[25%] group-hover:grayscale-0 transition-all"
-                      onError={(e) => { (e.target as HTMLElement).style.display = 'none'; }}
-                    />
-                  </div>
+              {/* Story Media Background */}
+              <div className="absolute inset-0 overflow-hidden">
+                <img
+                  src={story.media}
+                  alt={story.caption}
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 ease-out"
+                />
+              </div>
+
+              {/* Contrast Gradient Scrim */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/25 to-black/40 pointer-events-none" />
+
+              {/* Top Row: Mini Avatar + Status */}
+              <div className="relative z-10 flex items-center justify-between">
+                <div className="w-6 h-6 rounded-lg overflow-hidden border border-white/20 group-hover:border-[#D6F174] transition-colors flex-shrink-0 bg-zinc-900 shadow-sm">
+                  <img
+                    src={story.user.avatar}
+                    alt={story.user.name}
+                    className="w-full h-full object-cover"
+                  />
                 </div>
-              ) : (
-                /* Unseen Fresh Story — Rotating Neon Conic Squircle with Breathing Aura */
-                <div className="relative w-[62px] h-[62px] rounded-[22px] p-[2.5px] overflow-hidden flex items-center justify-center transition-all duration-300 group-hover:scale-108 group-hover:shadow-[0_0_25px_rgba(214,241,116,0.5)] story-squircle-aura">
-                  {/* Rotating Conic Gradient Border */}
-                  <div className="absolute inset-[-60%] story-squircle-conic pointer-events-none" />
 
-                  {/* Inner Content Shield */}
-                  <div className="relative z-10 w-full h-full rounded-[19px] overflow-hidden bg-[#0D0E12] p-[2px]">
-                    <img
-                      src={story.user.avatar}
-                      alt={story.user.name}
-                      className="w-full h-full rounded-[17px] object-cover group-hover:scale-110 transition-transform duration-500"
-                      onError={(e) => { (e.target as HTMLElement).style.display = 'none'; }}
-                    />
-                  </div>
+                {!story.hasSeen && (
+                  <span className="px-1.5 py-0.5 rounded-md bg-[#D6F174] text-black font-black text-[8px] uppercase tracking-wider shadow-sm">
+                    NEW
+                  </span>
+                )}
+              </div>
 
-                  {/* Electric Pulse Beacon in corner */}
-                  <div className="absolute bottom-0 right-0 z-20 w-3.5 h-3.5 rounded-full bg-[#D6F174] border-2 border-[#0D0E12] shadow-[0_0_8px_#D6F174] flex items-center justify-center">
-                    <span className="w-1.5 h-1.5 rounded-full bg-black" />
-                  </div>
-                </div>
-              )}
-
-              <span className={`text-[11px] font-bold max-w-[62px] truncate text-center transition-colors ${
-                story.hasSeen ? 'text-zinc-500 group-hover:text-zinc-300' : 'text-zinc-200 group-hover:text-[#D6F174]'
-              }`}>
-                {story.user.name.split(' ')[0]}
-              </span>
+              {/* Bottom Row: Name + Time */}
+              <div className="relative z-10 leading-tight">
+                <p className="text-[12px] font-bold text-white truncate drop-shadow group-hover:text-[#D6F174] transition-colors">
+                  {story.user.name.split(' ')[0]}
+                </p>
+                <p className="text-[10px] text-zinc-300 font-medium drop-shadow-sm">
+                  {story.timeAgo}
+                </p>
+              </div>
             </div>
           ))}
         </div>
