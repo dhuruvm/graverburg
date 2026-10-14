@@ -25,9 +25,6 @@ export const TemplateShowcaseView: React.FC<TemplateShowcaseViewProps> = ({
     <div className="max-w-6xl mx-auto pb-28 px-4 pt-2">
       {/* Intro Header */}
       <div className="text-center mb-8">
-        <span className="inline-block px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest bg-[#D6F174]/15 text-[#D6F174] border border-[#D6F174]/30 mb-2">
-          UI Template Match · Dribbble Inspiration
-        </span>
         <h1 className="font-display font-black text-3xl md:text-4xl text-white tracking-tight mb-2">
           3-Screen Mobile Template Design
         </h1>

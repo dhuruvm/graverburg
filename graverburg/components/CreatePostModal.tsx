@@ -138,7 +138,7 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
               type="text"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              placeholder="e.g. February Dribbble Shot Design"
+              placeholder="e.g. Midnight Cyber Aesthetic Drop"
               className="w-full px-4 py-3 rounded-2xl bg-black/15 border border-white/20 text-white placeholder-white/50 text-sm focus:outline-none focus:ring-2 focus:ring-black"
             />
           </div>
