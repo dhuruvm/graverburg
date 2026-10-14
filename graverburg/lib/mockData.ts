@@ -39,6 +39,7 @@ export interface Post {
     handle: string;
     avatar: string;
     badge?: string;
+    verified?: boolean;
   };
   title?: string;
   content: string;
@@ -52,6 +53,16 @@ export interface Post {
   hasReposted?: boolean;
   hasBookmarked?: boolean;
   image?: string;
+  quote?: {
+    author: {
+      name: string;
+      handle: string;
+      avatar: string;
+      verified?: boolean;
+    };
+    timestamp: string;
+    content: string;
+  };
   audioSnippet?: {
     track: string;
     duration: string;
@@ -162,6 +173,35 @@ export const INITIAL_USER: UserProfile = {
 };
 
 export const INITIAL_POSTS: Post[] = [
+  {
+    id: 'post-elon',
+    author: {
+      name: 'Elon Musk',
+      handle: '@elonmusk',
+      avatar: 'https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?w=120&auto=format&fit=crop&q=80',
+      verified: true,
+      badge: 'X',
+    },
+    content: 'Congrats!\n\nCFOs & execs posting to the public directly on X is the best way to get your message out and drive product sales.\n\nVastly more powerful and effective than a press release.\nx.com/sundarpichai/s...',
+    timestamp: '14h',
+    category: 'Thoughts',
+    cardColor: 'dark',
+    likes: 18400,
+    reposts: 2910,
+    replies: 1420,
+    hasLiked: false,
+    quote: {
+      author: {
+        name: 'Sundar Pichai',
+        handle: '@sundarpichai',
+        avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=120&auto=format&fit=crop&q=80',
+        verified: true,
+      },
+      timestamp: '17h',
+      content: "Gemini 4 Argon is here.\n\nIt's available globally today for developers and enterprises in the paid tier of the Gemini API and the Gemini platform, for Ultra subscribers in Google Antigravity, and Ultra and Pro subscribers in the Gemini app an...",
+    },
+    comments: [],
+  },
   {
     id: 'post-1',
     author: {

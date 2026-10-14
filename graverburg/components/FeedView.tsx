@@ -12,6 +12,7 @@ import {
   FlameIcon,
   ImageIcon,
   MusicIcon,
+  VerifiedBadgeIcon,
 } from './Icons';
 
 interface FeedViewProps {
@@ -368,8 +369,11 @@ export const FeedView: React.FC<FeedViewProps> = ({
                     />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-1.5">
                       <span className={`font-bold text-sm ${textColor}`}>{post.author.name}</span>
+                      {(post.author.verified || post.author.name === 'Elon Musk') && (
+                        <VerifiedBadgeIcon className="w-3.5 h-3.5 flex-shrink-0" />
+                      )}
                       {post.author.badge && (
                         <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-black/15 font-semibold">
                           {post.author.badge}
@@ -392,9 +396,34 @@ export const FeedView: React.FC<FeedViewProps> = ({
                 )}
 
                 {/* Body */}
-                <p className={`text-sm leading-relaxed mb-4 ${textColor}`}>
+                <p className={`text-sm leading-relaxed mb-4 ${textColor} whitespace-pre-line`}>
                   {post.content}
                 </p>
+
+                {/* Quoted post card if present */}
+                {post.quote && (
+                  <div
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onOpenComments(post);
+                    }}
+                    className="rounded-2xl border border-white/10 p-3.5 mb-4 bg-black/30 hover:bg-black/50 transition-colors cursor-pointer"
+                  >
+                    <div className="flex items-center gap-1.5 mb-1.5">
+                      <div className="w-5 h-5 rounded-full overflow-hidden bg-zinc-800 flex-shrink-0">
+                        <img src={post.quote.author.avatar} alt="" className="w-full h-full object-cover" />
+                      </div>
+                      <span className="font-bold text-xs text-white">{post.quote.author.name}</span>
+                      <VerifiedBadgeIcon className="w-3.5 h-3.5 flex-shrink-0" />
+                      <span className="text-[11px] text-zinc-400">{post.quote.author.handle}</span>
+                      <span className="text-[11px] text-zinc-500">·</span>
+                      <span className="text-[11px] text-zinc-500">{post.quote.timestamp}</span>
+                    </div>
+                    <p className="text-xs text-zinc-200 leading-relaxed whitespace-pre-line">
+                      {post.quote.content}
+                    </p>
+                  </div>
+                )}
 
                 {/* Post image */}
                 {post.image && (
