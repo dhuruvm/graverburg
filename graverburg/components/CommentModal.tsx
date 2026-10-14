@@ -72,7 +72,7 @@ export const CommentModal: React.FC<CommentModalProps> = ({
           <button
             type="button"
             onClick={() => toast('Drafts saved locally', 'info')}
-            className="text-[14px] font-bold text-[#1D9BF0] hover:underline cursor-pointer"
+            className="text-[14px] font-bold text-[#D6F174] hover:underline cursor-pointer"
           >
             Drafts
           </button>
@@ -157,7 +157,7 @@ export const CommentModal: React.FC<CommentModalProps> = ({
               {/* Replying to line */}
               <div className="text-[15px] text-zinc-500 mt-3">
                 Replying to{' '}
-                <span className="text-[#1D9BF0] hover:underline cursor-pointer">
+                <span className="text-[#D6F174] hover:underline cursor-pointer">
                   {post.author.handle}
                 </span>
               </div>
@@ -186,12 +186,12 @@ export const CommentModal: React.FC<CommentModalProps> = ({
                 {/* Toolbar Row */}
                 <div className="flex items-center justify-between pt-3 border-t border-[#2F3336]/60 mt-2">
                   {/* Media icons toolbar */}
-                  <div className="flex items-center gap-4 text-[#1D9BF0]">
+                  <div className="flex items-center gap-4 text-[#D6F174]">
                     <button
                       type="button"
                       onClick={() => toast('Image attachment active', 'info')}
                       title="Media"
-                      className="hover:bg-[#1D9BF0]/15 p-1.5 rounded-full transition-colors"
+                      className="hover:bg-[#D6F174]/15 p-1.5 rounded-full transition-colors"
                     >
                       <ImageIcon className="w-5 h-5" />
                     </button>
@@ -199,7 +199,7 @@ export const CommentModal: React.FC<CommentModalProps> = ({
                       type="button"
                       onClick={() => toast('GIF picker', 'info')}
                       title="GIF"
-                      className="hover:bg-[#1D9BF0]/15 p-1.5 rounded-full transition-colors"
+                      className="hover:bg-[#D6F174]/15 p-1.5 rounded-full transition-colors"
                     >
                       <GifIcon className="w-5 h-5" />
                     </button>
@@ -207,7 +207,7 @@ export const CommentModal: React.FC<CommentModalProps> = ({
                       type="button"
                       onClick={() => toast('Create a poll', 'info')}
                       title="Poll"
-                      className="hover:bg-[#1D9BF0]/15 p-1.5 rounded-full transition-colors"
+                      className="hover:bg-[#D6F174]/15 p-1.5 rounded-full transition-colors"
                     >
                       <PollIcon className="w-5 h-5" />
                     </button>
@@ -215,7 +215,7 @@ export const CommentModal: React.FC<CommentModalProps> = ({
                       type="button"
                       onClick={() => setCommentText((prev) => prev + ' 😊')}
                       title="Emoji"
-                      className="hover:bg-[#1D9BF0]/15 p-1.5 rounded-full transition-colors"
+                      className="hover:bg-[#D6F174]/15 p-1.5 rounded-full transition-colors"
                     >
                       <SmileIcon className="w-5 h-5" />
                     </button>
@@ -223,7 +223,7 @@ export const CommentModal: React.FC<CommentModalProps> = ({
                       type="button"
                       onClick={() => toast('Schedule post', 'info')}
                       title="Schedule"
-                      className="hover:bg-[#1D9BF0]/15 p-1.5 rounded-full transition-colors"
+                      className="hover:bg-[#D6F174]/15 p-1.5 rounded-full transition-colors"
                     >
                       <CalendarIcon className="w-5 h-5" />
                     </button>
@@ -231,7 +231,7 @@ export const CommentModal: React.FC<CommentModalProps> = ({
                       type="button"
                       onClick={() => toast('Tag location', 'info')}
                       title="Location"
-                      className="hover:bg-[#1D9BF0]/15 p-1.5 rounded-full transition-colors opacity-50 cursor-not-allowed"
+                      className="hover:bg-[#D6F174]/15 p-1.5 rounded-full transition-colors opacity-50 cursor-not-allowed"
                     >
                       <MapPinIcon className="w-5 h-5" />
                     </button>
@@ -243,7 +243,7 @@ export const CommentModal: React.FC<CommentModalProps> = ({
                     disabled={!commentText.trim()}
                     className={`px-5 py-1.5 rounded-full font-bold text-[15px] transition-all ${
                       commentText.trim()
-                        ? 'bg-[#1D9BF0] text-white hover:bg-[#1a8cd8] active:scale-95 shadow-md cursor-pointer'
+                        ? 'bg-[#D6F174] text-black hover:bg-[#c6e45f] active:scale-95 shadow-md cursor-pointer'
                         : 'bg-zinc-700 text-zinc-400 cursor-not-allowed'
                     }`}
                   >

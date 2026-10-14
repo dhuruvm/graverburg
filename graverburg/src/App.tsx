@@ -11,18 +11,19 @@ import {
 } from '../lib/mockData';
 import { ToastProvider, useToast } from '../components/ToastContext';
 import { Navbar } from '../components/Navbar';
-import { LeftSidebar } from '../components/LeftSidebar';
+import { LeftSidebar, ActiveTab } from '../components/LeftSidebar';
 import { RightSidebar } from '../components/RightSidebar';
 import { FloatingDock } from '../components/FloatingDock';
 import { FeedView } from '../components/FeedView';
+import { ExploreView } from '../components/ExploreView';
+import { NotificationsView } from '../components/NotificationsView';
+import { FollowView } from '../components/FollowView';
 import { ProfileView } from '../components/ProfileView';
 import { ChatView } from '../components/ChatView';
 import { TemplateShowcaseView } from '../components/TemplateShowcaseView';
 import { CreatePostModal } from '../components/CreatePostModal';
 import { StoryViewerModal } from '../components/StoryViewerModal';
 import { CommentModal } from '../components/CommentModal';
-
-type ActiveTab = 'feed' | 'profile' | 'chat' | 'showcase';
 
 // ─── Inner App (has access to ToastContext) ───────────────────────────────────
 
@@ -236,12 +237,25 @@ function AppInner() {
             />
           )}
 
+          {activeTab === 'explore' && (
+            <ExploreView onSelectTopic={(tag) => toast(`Browsing: ${tag}`, 'info')} />
+          )}
+
+          {activeTab === 'notifications' && (
+            <NotificationsView />
+          )}
+
+          {activeTab === 'follow' && (
+            <FollowView onBackToFeed={() => setActiveTab('feed')} />
+          )}
+
           {activeTab === 'profile' && (
             <ProfileView
               user={user}
               posts={posts}
               onUpdateUser={setUser}
               onRemixTheme={handleRemixTheme}
+              onBackToFeed={() => setActiveTab('feed')}
               initialEmpty={urlEmpty}
             />
           )}
@@ -260,6 +274,7 @@ function AppInner() {
           <RightSidebar
             onSelectTopic={(tag) => toast(`Filtering: ${tag}`, 'info')}
             openCreateModal={() => setIsCreateModalOpen(true)}
+            onNavigateTab={(tab) => setActiveTab(tab)}
           />
         )}
       </div>

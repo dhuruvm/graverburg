@@ -15,9 +15,18 @@ import {
 } from './Icons';
 import { useToast } from './ToastContext';
 
+export type ActiveTab =
+  | 'feed'
+  | 'explore'
+  | 'notifications'
+  | 'follow'
+  | 'chat'
+  | 'profile'
+  | 'showcase';
+
 interface LeftSidebarProps {
-  activeTab: 'feed' | 'profile' | 'chat' | 'showcase';
-  setActiveTab: (tab: 'feed' | 'profile' | 'chat' | 'showcase') => void;
+  activeTab: ActiveTab;
+  setActiveTab: (tab: ActiveTab) => void;
   openCreateModal: () => void;
   unreadChatCount?: number;
 }
@@ -38,33 +47,30 @@ export const LeftSidebar: React.FC<LeftSidebarProps> = ({
       badge: null,
     },
     {
-      id: 'showcase' as const,
+      id: 'explore' as const,
       label: 'Explore',
       icon: <SearchIcon className="w-7 h-7 stroke-[2]" />,
       badge: null,
-      action: () => setActiveTab('showcase'),
     },
     {
-      id: null,
+      id: 'notifications' as const,
       label: 'Notifications',
       icon: <BellIcon className="w-7 h-7 stroke-[2]" />,
       badge: '1',
-      badgeColor: 'bg-[#1D9BF0] text-white',
-      action: () => toast('Notifications: 1 new message & mention 🔔', 'celebrate'),
+      badgeColor: 'bg-[#FA5D54] text-white',
     },
     {
-      id: null,
+      id: 'follow' as const,
       label: 'Follow',
       icon: <UserPlusIcon className="w-7 h-7 stroke-[2]" />,
       badge: null,
-      action: () => toast('Suggested people to follow synced in right rail ✨', 'info'),
     },
     {
       id: 'chat' as const,
       label: 'Chat',
       icon: <MessageCircleIcon className="w-7 h-7 stroke-[2]" />,
       badge: unreadChatCount > 0 ? `${unreadChatCount}` : null,
-      badgeColor: 'bg-[#1D9BF0] text-white',
+      badgeColor: 'bg-[#D6F174] text-black font-extrabold',
     },
     {
       id: null,
@@ -94,11 +100,10 @@ export const LeftSidebar: React.FC<LeftSidebarProps> = ({
       badge: null,
     },
     {
-      id: null,
+      id: 'showcase' as const,
       label: 'More',
       icon: <MoreCircleIcon className="w-7 h-7 stroke-[2]" />,
       badge: null,
-      action: () => toast('Theme settings, display mode & privacy', 'info'),
     },
   ];
 
@@ -136,7 +141,7 @@ export const LeftSidebar: React.FC<LeftSidebarProps> = ({
                   {item.badge && (
                     <span
                       className={`absolute -top-1.5 -right-2 min-w-[18px] h-[18px] px-1 text-[11px] font-bold rounded-full flex items-center justify-center ${
-                        item.badgeColor || 'bg-[#1D9BF0] text-white'
+                        item.badgeColor || 'bg-[#FA5D54] text-white'
                       }`}
                     >
                       {item.badge}

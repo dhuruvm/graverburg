@@ -1,9 +1,10 @@
 import React from 'react';
-import { HomeIcon, MessageCircleIcon, PlusIcon, UserIcon, BellIcon } from './Icons';
+import { HomeIcon, SearchIcon, PlusIcon, UserIcon, BellIcon } from './Icons';
+import { ActiveTab } from './LeftSidebar';
 
 interface FloatingDockProps {
-  activeTab: 'feed' | 'profile' | 'chat' | 'showcase';
-  setActiveTab: (tab: 'feed' | 'profile' | 'chat' | 'showcase') => void;
+  activeTab: ActiveTab;
+  setActiveTab: (tab: ActiveTab) => void;
   openCreateModal: () => void;
   unreadCount?: number;
 }
@@ -12,7 +13,7 @@ export const FloatingDock: React.FC<FloatingDockProps> = ({
   activeTab,
   setActiveTab,
   openCreateModal,
-  unreadCount = 2,
+  unreadCount = 1,
 }) => {
   const navItems = [
     {
@@ -21,10 +22,15 @@ export const FloatingDock: React.FC<FloatingDockProps> = ({
       label: 'Home',
     },
     {
-      id: 'chat' as const,
+      id: 'explore' as const,
+      icon: <SearchIcon className="w-5 h-5" />,
+      label: 'Explore',
+    },
+    {
+      id: 'notifications' as const,
       icon: (
         <div className="relative">
-          <MessageCircleIcon className="w-5 h-5" />
+          <BellIcon className="w-5 h-5" />
           {unreadCount > 0 && (
             <span className="absolute -top-1.5 -right-1.5 min-w-[16px] h-4 px-1 rounded-full bg-[#FA5D54] text-white text-[9px] font-bold flex items-center justify-center">
               {unreadCount}
@@ -32,18 +38,12 @@ export const FloatingDock: React.FC<FloatingDockProps> = ({
           )}
         </div>
       ),
-      label: 'Messages',
+      label: 'Alerts',
     },
     {
       id: 'profile' as const,
       icon: <UserIcon className="w-5 h-5" />,
-      label: 'My Space',
-    },
-    {
-      id: null,
-      icon: <BellIcon className="w-5 h-5" />,
-      label: 'Alerts',
-      badge: '3',
+      label: 'Profile',
     },
   ];
 
@@ -54,8 +54,7 @@ export const FloatingDock: React.FC<FloatingDockProps> = ({
       style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
     >
       {/* Pill container */}
-      <div className="flex items-center justify-around bg-[#14151C] border-t border-[#1E2028] shadow-[0_-8px_32px_rgba(0,0,0,0.6)] px-2 py-2">
-
+      <div className="flex items-center justify-around bg-[#0D0E12]/95 backdrop-blur-md border-t border-[#1E2028] shadow-[0_-8px_32px_rgba(0,0,0,0.8)] px-2 py-2">
         {/* Left nav items */}
         {navItems.slice(0, 2).map((item, i) => {
           const isActive = item.id !== null && activeTab === item.id;
@@ -79,7 +78,7 @@ export const FloatingDock: React.FC<FloatingDockProps> = ({
         <button
           onClick={openCreateModal}
           aria-label="Create new post"
-          className="touch-target w-12 h-12 rounded-2xl bg-[#D6F174] text-[#0D0E12] hover:bg-[#c9e663] active:scale-95 transition-all shadow-[0_0_20px_rgba(214,241,116,0.35)] flex-shrink-0"
+          className="touch-target w-12 h-12 rounded-full bg-[#D6F174] text-[#0D0E12] hover:bg-[#c6e45f] active:scale-95 transition-all shadow-[0_0_20px_rgba(214,241,116,0.35)] flex-shrink-0"
         >
           <PlusIcon className="w-5 h-5 stroke-[2.5]" />
         </button>

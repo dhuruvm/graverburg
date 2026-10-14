@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
-import { SearchIcon, XIcon, MoreHorizontalIcon } from './Icons';
+import { SearchIcon, XIcon, MoreHorizontalIcon, VerifiedBadgeIcon } from './Icons';
 import { useToast } from './ToastContext';
 
 interface RightSidebarProps {
   onSelectTopic?: (tag: string) => void;
   openCreateModal?: () => void;
+  onNavigateTab?: (tab: 'feed' | 'explore' | 'notifications' | 'follow' | 'chat' | 'profile' | 'showcase') => void;
 }
 
 export const RightSidebar: React.FC<RightSidebarProps> = ({
   onSelectTopic,
+  onNavigateTab,
 }) => {
   const { toast } = useToast();
   const [isNewsDismissed, setIsNewsDismissed] = useState(false);
@@ -200,8 +202,90 @@ export const RightSidebar: React.FC<RightSidebarProps> = ({
         </div>
 
         <div
-          onClick={() => toast('Loading more trending stories and topics...', 'info')}
-          className="p-4 hover:bg-white/[0.03] cursor-pointer text-[#D6F174] text-[15px] font-normal transition-colors"
+          onClick={() => {
+            if (onNavigateTab) {
+              onNavigateTab('explore');
+            } else {
+              toast('Exploring all trending stories...', 'info');
+            }
+          }}
+          className="p-4 hover:bg-white/[0.03] cursor-pointer text-[#D6F174] text-[15px] font-bold transition-colors"
+        >
+          Show more
+        </div>
+      </div>
+
+      {/* 5. Who to follow Card */}
+      <div className="rounded-2xl bg-[#16181C] border border-[#2F3336]/60 overflow-hidden">
+        <h2 className="text-[20px] font-extrabold text-white tracking-tight px-4 pt-3 pb-2">
+          Who to follow
+        </h2>
+
+        <div className="divide-y divide-[#2F3336]/40">
+          <div className="px-4 py-3 hover:bg-white/[0.03] transition-colors flex items-center justify-between gap-3">
+            <div className="flex items-center gap-3 min-w-0">
+              <div className="w-10 h-10 rounded-full overflow-hidden bg-zinc-800 flex-shrink-0 border border-white/10">
+                <img
+                  src="https://images.unsplash.com/photo-1544717305-2782549b5136?w=100&auto=format&fit=crop&q=80"
+                  alt="Narendra Modi"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div className="min-w-0">
+                <div className="flex items-center gap-1">
+                  <span className="font-bold text-[15px] text-white truncate hover:underline cursor-pointer">
+                    Narendra Modi
+                  </span>
+                  <VerifiedBadgeIcon className="w-4 h-4 flex-shrink-0" />
+                </div>
+                <p className="text-[13px] text-zinc-500 truncate">@narendramodi</p>
+              </div>
+            </div>
+            <button
+              onClick={() => toast('Followed Narendra Modi! 🇮🇳', 'celebrate')}
+              className="px-4 py-1.5 rounded-full bg-[#D6F174] hover:bg-[#c6e45f] text-black font-extrabold text-sm active:scale-95 transition-all shadow-sm flex-shrink-0"
+            >
+              Follow
+            </button>
+          </div>
+
+          <div className="px-4 py-3 hover:bg-white/[0.03] transition-colors flex items-center justify-between gap-3">
+            <div className="flex items-center gap-3 min-w-0">
+              <div className="w-10 h-10 rounded-full overflow-hidden bg-zinc-800 flex-shrink-0 border border-white/10">
+                <img
+                  src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80"
+                  alt="PMO India"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div className="min-w-0">
+                <div className="flex items-center gap-1">
+                  <span className="font-bold text-[15px] text-white truncate hover:underline cursor-pointer">
+                    PMO India
+                  </span>
+                  <VerifiedBadgeIcon className="w-4 h-4 flex-shrink-0" />
+                </div>
+                <p className="text-[13px] text-zinc-500 truncate">@PMOIndia</p>
+              </div>
+            </div>
+            <button
+              onClick={() => toast('Followed PMO India! 🇮🇳', 'celebrate')}
+              className="px-4 py-1.5 rounded-full bg-[#D6F174] hover:bg-[#c6e45f] text-black font-extrabold text-sm active:scale-95 transition-all shadow-sm flex-shrink-0"
+            >
+              Follow
+            </button>
+          </div>
+        </div>
+
+        <div
+          onClick={() => {
+            if (onNavigateTab) {
+              onNavigateTab('follow');
+            } else {
+              toast('Opening follow suggestions...', 'info');
+            }
+          }}
+          className="p-4 hover:bg-white/[0.03] cursor-pointer text-[#D6F174] text-[15px] font-bold transition-colors"
         >
           Show more
         </div>

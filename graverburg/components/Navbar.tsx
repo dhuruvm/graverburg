@@ -1,9 +1,9 @@
-import React from 'react';
 import { BellIcon, SparklesIcon, SearchIcon } from './Icons';
+import { ActiveTab } from './LeftSidebar';
 
 interface NavbarProps {
-  activeTab: 'feed' | 'profile' | 'chat' | 'showcase';
-  setActiveTab: (tab: 'feed' | 'profile' | 'chat' | 'showcase') => void;
+  activeTab: ActiveTab;
+  setActiveTab: (tab: ActiveTab) => void;
   openCreateModal: () => void;
 }
 
