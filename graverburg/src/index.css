@@ -186,3 +186,32 @@ img {
 /* ─── Border Radius Shorthands ───────────────────────────── */
 .rounded-28 { border-radius: 28px !important; }
 .rounded-32 { border-radius: 32px !important; }
+
+/* ─── GraverBurg Story Squircle & Aura Animations ────────── */
+@keyframes storyRotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes storyAuraPulse {
+  0%, 100% {
+    box-shadow: 0 0 10px rgba(214, 241, 116, 0.25), 0 0 20px rgba(247, 201, 72, 0.15);
+  }
+  50% {
+    box-shadow: 0 0 24px rgba(214, 241, 116, 0.6), 0 0 35px rgba(214, 241, 116, 0.25);
+  }
+}
+
+.story-squircle-conic {
+  background: conic-gradient(from 0deg, #D6F174, #F7C948, #FA5D54, #D6F174);
+  animation: storyRotate 5s linear infinite;
+}
+
+.story-squircle-aura {
+  animation: storyAuraPulse 2.8s ease-in-out infinite;
+}
+

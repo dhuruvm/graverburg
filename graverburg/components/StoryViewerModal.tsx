@@ -99,9 +99,9 @@ export const StoryViewerModal: React.FC<StoryViewerModalProps> = ({
         <div className="relative z-10 p-4 pt-3 flex flex-col gap-3">
           <div className="flex items-center gap-1.5 w-full">
             {stories.map((s, idx) => (
-              <div key={s.id} className="h-1 flex-1 rounded-full bg-white/30 overflow-hidden">
+              <div key={s.id} className="h-1 flex-1 rounded-full bg-white/20 overflow-hidden">
                 <div
-                  className="h-full bg-white transition-all duration-100 ease-linear rounded-full"
+                  className="h-full bg-[#D6F174] shadow-[0_0_8px_#D6F174] transition-all duration-100 ease-linear rounded-full"
                   style={{
                     width:
                       idx < currentIndex
@@ -118,7 +118,7 @@ export const StoryViewerModal: React.FC<StoryViewerModalProps> = ({
           {/* User Header & Close Button */}
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2.5">
-              <div className="w-9 h-9 rounded-full overflow-hidden border-2 border-[#D6F174] flex-shrink-0">
+              <div className="w-10 h-10 rounded-[14px] overflow-hidden border-2 border-[#D6F174] shadow-[0_0_12px_rgba(214,241,116,0.4)] flex-shrink-0">
                 <img
                   src={currentStory.user.avatar}
                   alt={currentStory.user.name}

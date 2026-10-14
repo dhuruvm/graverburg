@@ -134,17 +134,21 @@ export const FeedView: React.FC<FeedViewProps> = ({
       </div>
 
       <div className="px-4 pt-4">
-        {/* 24h Stories — compact single-row bar */}
-        <div className="mb-4 flex items-center gap-3 overflow-x-auto no-scrollbar py-1">
-          {/* Add Story */}
+        {/* 24h Stories — GraverBurg Cyber-Squircle Stream */}
+        <div className="mb-6 flex items-center gap-3.5 overflow-x-auto no-scrollbar py-2 px-1">
+          {/* Add Story / Your Vibe */}
           <div
             onClick={onOpenCreateModal}
-            className="flex flex-col items-center gap-1.5 flex-shrink-0 cursor-pointer group"
+            className="flex flex-col items-center gap-2 flex-shrink-0 cursor-pointer group"
           >
-            <div className="w-13 h-13 w-[52px] h-[52px] rounded-full bg-[#14151C] border-2 border-dashed border-zinc-600 group-hover:border-[#D6F174] flex items-center justify-center transition-all">
-              <PlusIcon className="w-4 h-4 text-zinc-500 group-hover:text-[#D6F174]" />
+            <div className="relative w-[62px] h-[62px] rounded-[22px] border-2 border-dashed border-[#D6F174]/40 bg-[#16171E] group-hover:border-[#D6F174] group-hover:bg-[#D6F174]/10 transition-all duration-300 flex items-center justify-center group-hover:scale-105 group-hover:shadow-[0_0_20px_rgba(214,241,116,0.35)]">
+              <div className="w-7 h-7 rounded-xl bg-[#D6F174] text-black flex items-center justify-center shadow-md group-hover:rotate-90 transition-transform duration-300">
+                <PlusIcon className="w-4 h-4 stroke-[3]" />
+              </div>
             </div>
-            <span className="text-[10px] font-medium text-zinc-500 group-hover:text-zinc-300">Add</span>
+            <span className="text-[11px] font-bold text-zinc-400 group-hover:text-[#D6F174] transition-colors tracking-tight">
+              Your Vibe
+            </span>
           </div>
 
           {/* Story items */}
@@ -152,25 +156,46 @@ export const FeedView: React.FC<FeedViewProps> = ({
             <div
               key={story.id}
               onClick={() => onOpenStory(idx)}
-              className="flex flex-col items-center gap-1.5 flex-shrink-0 cursor-pointer group"
+              className="flex flex-col items-center gap-2 flex-shrink-0 cursor-pointer group"
             >
-              <div
-                className={`w-[52px] h-[52px] rounded-full flex-shrink-0 transition-transform group-hover:scale-105 ${
-                  story.hasSeen
-                    ? 'p-[2.5px] bg-zinc-700'
-                    : 'p-[2.5px] bg-gradient-to-tr from-[#FA5D54] via-[#F7C948] to-[#D6F174]'
-                }`}
-              >
-                <div className="w-full h-full rounded-full overflow-hidden border-2 border-[#0D0E12] bg-zinc-800 flex items-center justify-center">
-                  <img
-                    src={story.user.avatar}
-                    alt={story.user.name}
-                    className="w-full h-full object-cover"
-                    onError={(e) => { (e.target as HTMLElement).style.display = 'none'; }}
-                  />
+              {story.hasSeen ? (
+                /* Seen Story — Subtle Charcoal Squircle */
+                <div className="relative w-[62px] h-[62px] rounded-[22px] p-[2px] border-2 border-zinc-700/60 bg-[#16171E] flex items-center justify-center transition-all duration-300 opacity-70 group-hover:opacity-100 group-hover:scale-105 group-hover:border-zinc-500">
+                  <div className="w-full h-full rounded-[18px] overflow-hidden bg-[#0D0E12]">
+                    <img
+                      src={story.user.avatar}
+                      alt={story.user.name}
+                      className="w-full h-full object-cover grayscale-[25%] group-hover:grayscale-0 transition-all"
+                      onError={(e) => { (e.target as HTMLElement).style.display = 'none'; }}
+                    />
+                  </div>
                 </div>
-              </div>
-              <span className="text-[10px] font-medium text-zinc-400 max-w-[52px] truncate text-center">
+              ) : (
+                /* Unseen Fresh Story — Rotating Neon Conic Squircle with Breathing Aura */
+                <div className="relative w-[62px] h-[62px] rounded-[22px] p-[2.5px] overflow-hidden flex items-center justify-center transition-all duration-300 group-hover:scale-108 group-hover:shadow-[0_0_25px_rgba(214,241,116,0.5)] story-squircle-aura">
+                  {/* Rotating Conic Gradient Border */}
+                  <div className="absolute inset-[-60%] story-squircle-conic pointer-events-none" />
+
+                  {/* Inner Content Shield */}
+                  <div className="relative z-10 w-full h-full rounded-[19px] overflow-hidden bg-[#0D0E12] p-[2px]">
+                    <img
+                      src={story.user.avatar}
+                      alt={story.user.name}
+                      className="w-full h-full rounded-[17px] object-cover group-hover:scale-110 transition-transform duration-500"
+                      onError={(e) => { (e.target as HTMLElement).style.display = 'none'; }}
+                    />
+                  </div>
+
+                  {/* Electric Pulse Beacon in corner */}
+                  <div className="absolute bottom-0 right-0 z-20 w-3.5 h-3.5 rounded-full bg-[#D6F174] border-2 border-[#0D0E12] shadow-[0_0_8px_#D6F174] flex items-center justify-center">
+                    <span className="w-1.5 h-1.5 rounded-full bg-black" />
+                  </div>
+                </div>
+              )}
+
+              <span className={`text-[11px] font-bold max-w-[62px] truncate text-center transition-colors ${
+                story.hasSeen ? 'text-zinc-500 group-hover:text-zinc-300' : 'text-zinc-200 group-hover:text-[#D6F174]'
+              }`}>
                 {story.user.name.split(' ')[0]}
               </span>
             </div>
