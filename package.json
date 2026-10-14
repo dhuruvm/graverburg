@@ -1,0 +1,10 @@
+{
+  "name": "project-graverburg",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "npm --prefix graverburg run dev",
+    "build": "npm --prefix graverburg run build",
+    "preview": "npm --prefix graverburg run preview"
+  }
+}

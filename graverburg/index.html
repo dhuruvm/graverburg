@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/png" href="/logo.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GraverBurg — Gen Z Social Space & Feed</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Tailwind CSS Script -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            colors: {
+              lime: {
+                DEFAULT: '#D6F174',
+                400: '#D6F174',
+              },
+              yellow: {
+                DEFAULT: '#F7C948',
+                400: '#F7C948',
+              },
+              coral: {
+                DEFAULT: '#FA5D54',
+                500: '#FA5D54',
+              },
+              cream: {
+                DEFAULT: '#ECEEE8',
+              },
+              charcoal: {
+                900: '#0D0E12',
+                800: '#16171E',
+                700: '#1F212A',
+              }
+            },
+            fontFamily: {
+              sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+              display: ['"Space Grotesk"', 'system-ui', 'sans-serif'],
+              mono: ['"JetBrains Mono"', 'monospace'],
+            }
+          }
+        }
+      };
+    </script>
+  </head>
+  <body class="min-h-full bg-[#0D0E12] text-[#F3F4F6] antialiased">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
