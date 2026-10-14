@@ -79,13 +79,7 @@ export const LeftSidebar: React.FC<LeftSidebarProps> = ({
       badge: null,
       action: () => toast('Audio & Video rooms available in Space Lounge 📞', 'info'),
     },
-    {
-      id: null,
-      label: 'Grok',
-      icon: <SparklesIcon className="w-7 h-7 stroke-[2]" />,
-      badge: null,
-      action: () => toast('Graver AI Assistant standing by ⚡', 'info'),
-    },
+
     {
       id: null,
       label: 'History',
